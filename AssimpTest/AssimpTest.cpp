@@ -1,5 +1,6 @@
 #include <cstdio>
 #include <vector>
+#include <string>
 #include <assimp/postprocess.h>
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>
@@ -34,6 +35,7 @@ struct MeshData
 
 	std::vector<VertexFormat>	vertices;		// 頂点配列
 	std::vector<uint32_t>		indices;		// インデックス配列
+	std::string					textureName;	// テクスチャ名
 };
 
 int main()
@@ -59,6 +61,11 @@ int main()
 			// ディフューズカラー獲得
 			aiColor3D diffuseColor(0.f, 0.f, 0.f);
 			pScene->mMaterials[pMesh->mMaterialIndex]->Get(AI_MATKEY_COLOR_DIFFUSE, diffuseColor);
+
+			// テクスチャパスを獲得
+			aiString path;
+			pScene->mMaterials[pMesh->mMaterialIndex]->GetTexture(aiTextureType_DIFFUSE, 0, &path);
+			mashDatum[i].textureName = path.C_Str();
 
 			aiVector3D ZERO_3D(0.0f, 0.0f, 0.0f);
 
@@ -104,6 +111,7 @@ int main()
 
 		for(const auto& meshData : mashDatum)
 		{
+			printf_s("\tテクスチャ名 = %s\n" , meshData.textureName.c_str());
 			printf_s("\t=====頂点情報表示開始=====\n");
 			for(const auto& vertex : meshData.vertices)
 			{
