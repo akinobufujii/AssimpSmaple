@@ -20,10 +20,6 @@ struct MeshData
 		aiVector3D	m_normal;
 		aiColor3D	m_color;
 
-		VertexFormat()
-		{
-		}
-
 		VertexFormat(const aiVector3D& pos, const aiVector2D& tex, const aiVector3D& normal, const aiColor3D& color)
 			: m_pos(pos)
 			, m_tex(tex)
@@ -130,6 +126,8 @@ int main()
 			printf_s("\t=====インデックスによる面情報表示終了=====\n");
 		}
 		printf_s("=====メッシュ情報表示終了=====\n");
+
+		importer.FreeScene();
 	}
 	else
 	{
